@@ -1,31 +1,91 @@
-<!--  The most basic web map. -->
+<!-- Leaflet reference: http://leafletjs.com/reference.html -->
+<!-- Omnivore reference: https://github.com/mapbox/leaflet-omnivore -->
 
 <!DOCTYPE html>
-<!-- Leaflet Guide: http://leafletjs.com/examples/quick-start.html -->
-
-<html lang="en">
 <head>
-	<style type="text/css">
-	body { margin:0; padding: 0;}
-	html, #map { position:absolute; top:0; bottom:0; width:100%;}
-	</style>
+    <style>
+    
 
-	<title> Base Layer </title>
+    </style>
+    <title> Moves Data </title>
+    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'>
 
-	<!-- Leaflet -->
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link href='styles.css' rel='stylesheet'>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 </head>
 
 <body>
-	<div id="map"></div>
-	<script>
-	var map = L.map('map').setView([25.0823226,-80.448883], 15);
+    <div id="map"></div>
+    <script>
 
-	L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
-		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-		maxZoom: 18,
-	}).addTo(map);
-	</script>
+    // BaseMap
+    // var layer = L.tileLayer('https://api.mapbox.com/styles/v1/monuoha/ciz4l5cnb00582rqb17nsay9n/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibW9udW9oYSIsImEiOiJEN0llUXVZIn0.H0DvYd5sdO9b3dNcnuucvw');
+
+ var layer = L.tileLayer('https://api.mapbox.com/styles/v1/chesterdols/ciz4l5gf9005w2spr2udc4x4a/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2hlc3RlcmRvbHMiLCJhIjoiY2l6NGpyZjJoMDVibDJ3bjE3Z3NvZWYweSJ9.zS_zH0JYnYyKRdFNV0IufA');
+
+    // var map = L.map('map').setView([40.7246342, -73.9427715], 13);
+    // map.addLayer(layer);
+
+    var map = L.map('map').setView([40.5893404, -74.1343744], 14.26);
+    map.addLayer(layer);
+
+    // Walking Layer
+    var walkingLayer = L.geoJson(null, {
+        filter: function(feature) {
+            // console.log(feature.properties.activities[0].activity);
+            return feature.properties.activities[0].activity == "walking";
+        },
+        style: function(feature){
+            return {
+                color: "orange",
+                weight: 5
+            }
+        }
+    });
+
+    // Transport Layer
+    // var transportLayer = L.geoJson(null, {
+    //     filter: function(feature) {
+    //         // console.log(feature.properties.activities[0].activity);
+    //         return feature.properties.activities[0].activity == "transport";
+    //     },
+    //     style: function(feature){
+    //         return {
+    //             color: "#34F1BD",
+    //             weight: 5,
+    //             opacity: .4
+    //         }
+    //     }
+    // });
+
+    // // Places Layer
+    // var placesLayer = L.geoJson(null, {
+    //     pointToLayer: function(feature, latlng){
+    //         return new L.CircleMarker(latlng, {
+    //             radius: 10,
+    //             color: "white",
+    //             fillOpacity: 1
+    //         })
+    //     },
+    //     onEachFeature(feature, layer){
+    //         // console.log(feature.properties.place.location.lat);
+    //         layer.bindPopup("<strong>Location</strong>:" + "</br>" + String(feature.properties.place.location.lat.toFixed(2)) + ", " + String(feature.properties.place.location.lon.toFixed(2)))
+    //     },
+    //     filter: function(feature){
+    //         return feature.properties.place.type == "home"
+    //     }
+
+    // });
+
+
+    // var dataLayer = omnivore.geojson("data/activities.geojson", null, walkingLayer).addTo(map);
+    // var dataLayer = omnivore.geojson("data/activities.geojson", null, transportLayer).addTo(map);
+    // var dataLayer = omnivore.geojson("data/places.geojson", null, placesLayer).addTo(map);
+
+
+
+    </script>
 </body>
+
 </html>
